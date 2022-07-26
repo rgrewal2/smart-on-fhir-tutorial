@@ -126,7 +126,7 @@
   function getAllergyContent(allergy){
     var allList ="";
   allergy.forEach(function(all2) {
-    allList + allList + "<div>" + all2.code.text + "</div>";
+    allList += "<div>" + all2.code.text + "</div>";
   });
     return allList;
   }
