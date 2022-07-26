@@ -27,13 +27,15 @@
                     }
                   });
         var allergy = smart.patient.api.fetchAll({
-                    type: 'AllergyIntolerance'
+                    type: 'AllergyIntolerance',
+                    query: {
+                            "clinical-status": "active"}
                   });
-
         $.when(pt, obv).fail(onError);
 
         $.when(pt, obv, allergy).done(function(patient, obv, allergy2) {
           console.log(allergy2);
+          
           
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
@@ -74,6 +76,8 @@
           p.ldl = getQuantityValueAndUnit(ldl[0]);
 
           p.temp = getQuantityValueAndUnit(temp[0]);
+          
+          p.allergy = getAllergyContent(allergy2);
           ret.resolve(p);
         });
       } else {
@@ -98,6 +102,7 @@
       ldl: {value: ''},
       hdl: {value: ''},
       temp: {value: ''},
+      allergy: {value: ''},
     };
   }
 
@@ -118,6 +123,14 @@
     return getQuantityValueAndUnit(formattedBPObservations[0]);
   }
 
+  function getAllergyContent(allergy){
+    var allList ="";
+  allergy.forEach(function(all2) {
+    allList + allList + "<div>" + all2.code.text + "</div>";
+  });
+    return allList;
+  }
+  
   function getQuantityValueAndUnit(ob) {
     if (typeof ob != 'undefined' &&
         typeof ob.valueQuantity != 'undefined' &&
@@ -142,6 +155,7 @@
     $('#ldl').html(p.ldl);
     $('#hdl').html(p.hdl);
     $('#temp').html(p.temp);
+    $('#allergy').html(p.allergy);
   };
 
 })(window);
