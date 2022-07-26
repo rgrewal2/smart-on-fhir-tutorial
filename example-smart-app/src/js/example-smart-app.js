@@ -26,6 +26,9 @@
                       }
                     }
                   });
+        var allergy = smart.patient.api.fetchAll({
+                    type: 'AllergyIntolerance'
+                  });
 
         $.when(pt, obv).fail(onError);
 
